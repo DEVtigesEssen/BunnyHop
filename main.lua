@@ -1,14 +1,22 @@
+require "player"
+require "basket"
+
+function love.load()
+    gamePlayer = Player:new()
+    gameBasket = Basket:new()
+end
+
 function love.draw()
-    -- player:draw()
+    gamePlayer:draw()
     -- carrotManager:draw()
-    -- basket:draw()
+    gameBasket:draw()
 
 end
 
 function love.update()
-    -- player:update()
+    gamePlayer:update()
     -- carrotManager:update()
-    -- basket:update()
+    gameBasket:update()
 
 end
 

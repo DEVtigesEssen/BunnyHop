@@ -15,6 +15,7 @@ function Player:update()
 end
 
 function Player:draw()
+    love.graphics.print( "Hello world", 8, 69)
 end
 
 function Player:keypressed(key, scancode, isrepeat)
