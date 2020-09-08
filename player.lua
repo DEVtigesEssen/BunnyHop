@@ -14,10 +14,24 @@ end
 function Player:update()
 end
 
+function Player:updatePosition(x,y)
+    self.x=x
+    self.y=y
+end
+
 function Player:draw()
-    love.graphics.print( "Hello world", 8, 69)
+    love.graphics.rectangle("fill", self.x, self.y, 64, 64)
 end
 
 function Player:keypressed(key, scancode, isrepeat)
-
+    if key== "w" then
+        self:updatePosition(self.x,self.y-64) 
+    elseif key== "s" then
+        self:updatePosition(self.x,self.y+64) 
+    elseif key== "a" then
+        self:updatePosition(self.x-64,self.y) 
+    elseif key== "d" then
+        self:updatePosition(self.x+64,self.y) 
+    end
 end
+
