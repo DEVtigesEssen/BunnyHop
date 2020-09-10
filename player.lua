@@ -1,9 +1,7 @@
 Player={}
 
 function Player:new()
-    o={}
-    o.x=0
-    o.y=0
+    o = Collidable:new(0, 0, 64, 64)
     o.carrotCount=0
 
     setmetatable(o, self)
@@ -20,7 +18,8 @@ function Player:updatePosition(x,y)
 end
 
 function Player:draw()
-    love.graphics.rectangle("fill", self.x, self.y, 64, 64)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.print(self.carrotCount)
 end
 
 function Player:keypressed(key, scancode, isrepeat)
@@ -32,6 +31,10 @@ function Player:keypressed(key, scancode, isrepeat)
         self:updatePosition(self.x-64,self.y) 
     elseif key== "d" then
         self:updatePosition(self.x+64,self.y) 
+    end
+    local didCollide=Collidable.didCollide(self, gameCarrot)
+    if didCollide then 
+        self.carrotCount=self.carrotCount+1
     end
 end
 
