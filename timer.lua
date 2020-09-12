@@ -3,6 +3,7 @@ Timer={}
 function Timer:new(startTime)
     o = {}
     o.dtTimer = 0 
+    o.startTime = startTime
     o.currentTime = startTime
     o.running = true
     setmetatable(o, self)
@@ -19,7 +20,8 @@ function Timer:update(dt)
                 self.currentTime = self.currentTime - 1
             else
                 self.currentTime = 0
-                self.running = false
+                gamePlayer.carrotCount = 0
+                gameStateManager:updateGameState(GameStates.SCORE_END)
             end
         end
     end
@@ -36,4 +38,14 @@ end
 function Timer:draw()
     love.graphics.print(self.currentTime, love.graphics.getWidth()/2, 30, 0, 4, 4)
     
+end
+
+function Timer:stop()
+    self.running = false
+    self.currentTime = 0
+end
+
+function Timer:start()
+    self.running = true
+    self.currentTime = self.startTime
 end

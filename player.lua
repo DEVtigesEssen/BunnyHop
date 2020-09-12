@@ -1,7 +1,7 @@
 Player={}
 
 function Player:new()
-    o = Collidable:new(0, 0, 64, 64)
+    o = Collidable:new(0, 0, 64, 64, "player")
     o.carrotCount=0
 
     setmetatable(o, self)
@@ -18,7 +18,8 @@ function Player:updatePosition(x,y)
 end
 
 function Player:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.draw(spritesheet, bunny_sprite, self.x, self.y)
+
     love.graphics.print(self.carrotCount)
 end
 
@@ -32,9 +33,23 @@ function Player:keypressed(key, scancode, isrepeat)
     elseif key== "d" then
         self:updatePosition(self.x+64,self.y) 
     end
-    local didCollide=Collidable.didCollide(self, gameCarrot)
-    if didCollide then 
-        self.carrotCount=self.carrotCount+1
-    end
+    -- local didCollide=Collidable.didCollide(self, )
+    self:didCollideWithAnything()
 end
 
+
+function Player:didCollideWithAnything()
+    for i=1, table.getn(all_collidables) do
+        local otherCollidable = all_collidables[i]
+        if Collidable.didCollide(self, otherCollidable) then
+            if otherCollidable.tag == 'carrot' then
+                gameCarrotManager:pickupCarrot(otherCollidable)
+                self.carrotCount = self.carrotCount + 1
+            end
+            if otherCollidable.tag == 'basket' then
+                gameStateManager:updateGameState(GameStates.SCORE_END)
+                gameTimer:stop()
+            end
+        end
+    end
+end

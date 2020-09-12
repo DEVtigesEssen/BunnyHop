@@ -1,14 +1,18 @@
 Collidable={}
 
-function Collidable:new(x, y, width, height)
+all_collidables = {}
+
+function Collidable:new(x, y, width, height, tag)
     o={}
     o.x=x
     o.y=y
     o.width=width
     o.height=height
+    o.tag = tag or "default"
 
     setmetatable(o, self)
     self.__index = self
+    table.insert(all_collidables, o)
     return o
 end
 
